@@ -13,13 +13,17 @@ export const Body: React.FC<BodyProps> = ({}) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        axios.post('/api/minify-url', {
-            longURL: longURL
-        })
-        .then(res => {
-            console.log(res)
-            setMiniURL(res.data.miniURL)
-        })
+        if (miniURL.trim().length === 0) {
+            alert('The URL field cannot be empty!')
+        } else {
+            axios.post('/api/minify-url', {
+                longURL: longURL
+            })
+            .then(res => {
+                console.log(res)
+                setMiniURL(res.data.miniURL)
+            })
+        }
     }
 
     const handleCopy = () => {
