@@ -13,7 +13,7 @@ export const Body: React.FC<BodyProps> = ({}) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (miniURL.trim().length === 0) {
+        if (longURL.trim().length === 0) {
             alert('The URL field cannot be empty!')
         } else {
             axios.post('/api/minify-url', {
