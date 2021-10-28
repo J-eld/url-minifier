@@ -9,6 +9,7 @@ export const Body: React.FC<BodyProps> = ({}) => {
     const [longURL, setLongURL] = useState<string>('')
     const [miniURL, setMiniURL] = useState<string>('')
     const [showCopyButton, setShowCopyButton] = useState<boolean>(false)
+    const [isInvalidURL, setIsInvalidURL] = useState<boolean>(false)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -22,6 +23,11 @@ export const Body: React.FC<BodyProps> = ({}) => {
             .then(res => {
                 console.log(res)
                 setMiniURL(res.data.miniURL)
+                setIsInvalidURL(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setIsInvalidURL(true)
             })
         }
     }
@@ -42,6 +48,11 @@ export const Body: React.FC<BodyProps> = ({}) => {
                     <input value={longURL} onChange={(e) => setLongURL(e.target.value)} placeholder="Enter URL" className="p-1 w-full rounded-md border-2 border-black" />
                     <input type="submit" value="Get Minified URL" className="border-2 border-black bg-black text-white p-2 w-full mt-2 rounded-md hover:bg-blue-700 cursor-pointer active:bg-blue-500" />
                 </form>
+                {isInvalidURL && (
+                    <div className="text-lg text-red-500">
+                        URL is invalid, please try a different URL.
+                    </div>
+                )}
                 {miniURL.length > 0 && (
                 <>
                     <div className="text-lg">

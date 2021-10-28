@@ -4,7 +4,8 @@ const ServerlessClient = require('serverless-postgres')
 const { nanoid } = require('nanoid')
 
 type Data = {
-  miniURL: string
+  miniURL?: string,
+  error?: string,
 }
 
 export default async function handler(
@@ -21,14 +22,17 @@ export default async function handler(
     await client.connect()
 
     let id =  await nanoid(7)
-    let url;
+    let url = req.body.longURL
+
+    if (!url.startsWith('http')) {
+        url = 'http://' + url
+    }
 
     try {
-        new URL(req.body.longURL)
-        url = req.body.longURL
+        new URL(url)
 
-    } catch (err) {
-        url = 'http://' + req.body.longURL
+    } catch (_) {
+        return res.status(400).send({error: 'URL is invalid'})
     }
 
     while(true) {
