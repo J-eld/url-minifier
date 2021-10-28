@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 const ServerlessClient = require('serverless-postgres')
-const { nanoid } = require('nanoid')
 
 type Data = {
     longURL: string
